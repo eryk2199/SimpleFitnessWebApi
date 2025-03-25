@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using SimpleFitnessWebApi.Data;
+
 namespace SimpleFitnessWebApi;
 
 public class Program
@@ -7,7 +10,10 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-
+        builder.Services.AddDbContext<AppDbContext>(options =>
+        {
+            options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+        });
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
